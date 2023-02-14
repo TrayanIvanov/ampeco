@@ -6,20 +6,22 @@
 
         <title>Ampeco</title>
 
-        <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <style>
-            body {
-                font-family: 'Nunito', sans-serif;
-            }
-        </style>
     </head>
     <body>
         <div class="container mt-5">
             <h1>Ampeco assignment</h1>
         </div>
 
-        <div class="container">
+        <div class="container mt-5">
+            <h4>Bitcoin price USD</h4>
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+
+        <div class="container mt-5 mb-5">
+            <h4>Subscribe for email notification on price exceeded</h4>
             <div class="row">
                 <div class="col-md-12 mt-5">
                     <form method="POST" action="/">
@@ -46,5 +48,38 @@
                 </div>
             </div>
         </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const labels = {!! json_encode($labels, JSON_HEX_TAG) !!};
+            const bitcoinValues = {!! json_encode($bitcoinValues, JSON_HEX_TAG) !!};
+            const ctx = document.getElementById('myChart');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Bitcoin price USD',
+                        data: bitcoinValues,
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                        x: {
+                            ticks: {
+                                callback: function(val, index) {
+                                    return index % 2 === 0 ? this.getLabelForValue(val) : '';
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+        </script>
     </body>
 </html>
