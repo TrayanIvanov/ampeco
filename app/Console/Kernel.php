@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Jobs\CollectData;
+use App\Jobs\BitcoinDataCrawler;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->job(CollectData::class)->everyMinute();
+         $schedule->job(BitcoinDataCrawler::class)->everyMinute();
     }
 
     /**

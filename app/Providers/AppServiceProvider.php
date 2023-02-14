@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use App\Jobs\CollectData;
+use App\Jobs\BitcoinDataCrawler;
 use App\Services\BitfinexApi;
+use App\Services\UserNotifier;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,8 +16,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CollectData::class, function () {
-            return new CollectData(new BitfinexApi());
+        $this->app->bind(BitcoinDataCrawler::class, function () {
+            return new BitcoinDataCrawler(new BitfinexApi(), new UserNotifier());
         });
     }
 

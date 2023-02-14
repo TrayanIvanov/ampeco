@@ -4,21 +4,24 @@ namespace App\Jobs;
 
 use App\Models\BitcoinTrade;
 use App\Services\TickerableInterface;
+use App\Services\UserNotifiableInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class CollectData implements ShouldQueue
+class BitcoinDataCrawler implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private TickerableInterface $tickerable;
+    private UserNotifiableInterface $notifiable;
 
-    public function __construct(TickerableInterface $tickerable)
+    public function __construct(TickerableInterface $tickerable, UserNotifiableInterface $notifiable)
     {
         $this->tickerable = $tickerable;
+        $this->notifiable = $notifiable;
     }
 
     public function handle(): void
@@ -29,7 +32,6 @@ class CollectData implements ShouldQueue
         $bitcoinTrade->price = $price;
         $bitcoinTrade->save();
 
-        // TODO FIND users with monitored price < current price
-        // TODO send email
+        $this->notifiable->notifyPriceUp($price);
     }
 }
