@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\BitcoinTrade;
+use App\Models\Subscriber;
 use App\Services\TickerableInterface;
 use App\Services\UserNotifiableInterface;
 use Illuminate\Bus\Queueable;
@@ -32,6 +33,7 @@ class BitcoinDataCrawler implements ShouldQueue
         $bitcoinTrade->price = $price;
         $bitcoinTrade->save();
 
-        $this->notifiable->notifyPriceUp($price);
+        $subscribers = Subscriber::all();
+        $this->notifiable->notifyPriceUp($subscribers, $price);
     }
 }
