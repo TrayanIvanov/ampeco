@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Models\Subscribers;
+use App\Models\Subscriber;
 use Illuminate\Support\Facades\Mail;
 
 class UserNotifier implements UserNotifiableInterface
 {
     public function notifyPriceUp(float $price): void
     {
-        $subscribers = Subscribers::all();
+        $subscribers = Subscriber::all();
         foreach ($subscribers as $subscriber) {
             if ($price > $subscriber->price) {
                 Mail::raw(
