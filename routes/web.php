@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BitcoinTradesApiController;
+use App\Http\Controllers\Api\SubscribersApiController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,4 @@ Route::post('/', [HomeController::class, 'store']);
 Route::get('/vue', [HomeController::class, 'showVue']);
 
 Route::apiResource('bitcoin-trades', BitcoinTradesApiController::class);
+Route::apiResource('subscribe', SubscribersApiController::class);

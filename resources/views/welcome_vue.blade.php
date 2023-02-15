@@ -12,8 +12,4 @@
     <body>
         <div id="app"></div>
     </body>
-    <script>
-        window.labels = {!! json_encode($labels, JSON_HEX_TAG) !!};
-        window.bitcoinValues = {!! json_encode($bitcoinValues, JSON_HEX_TAG) !!};
-    </script>
 </html>
