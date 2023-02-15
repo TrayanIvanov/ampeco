@@ -18,4 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'show']);
 Route::post('/', [HomeController::class, 'store']);
 
+Route::get('/vue', [HomeController::class, 'showVue']);
+
 Route::apiResource('bitcoin-trades', BitcoinTradesApiController::class);

@@ -25,6 +25,13 @@ class HomeController extends Controller
         return view('welcome', $this->chartDataHelper->getData($trades));
     }
 
+    public function showVue(): View
+    {
+        $trades = BitcoinTrade::all();
+
+        return view('welcome_vue', $this->chartDataHelper->getData($trades));
+    }
+
     public function store(StoreSubscriberRequest $request): RedirectResponse
     {
         $validated = $request->validated();
