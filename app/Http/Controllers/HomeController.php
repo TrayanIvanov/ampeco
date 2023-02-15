@@ -5,22 +5,24 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSubscriberRequest;
 use App\Models\BitcoinTrade;
 use App\Models\Subscriber;
+use App\Services\ChartDataHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
+    private ChartDataHelper $chartDataHelper;
+
+    public function __construct(ChartDataHelper $chartDataHelper)
+    {
+        $this->chartDataHelper = $chartDataHelper;
+    }
+
     public function show(): View
     {
         $trades = BitcoinTrade::all();
 
-        $labels = $trades->map(fn (BitcoinTrade $trade) => $trade->created_at->format('d.m.y H:i'));
-        $bitcoinValues = $trades->map(fn (BitcoinTrade $trade) => $trade->price);
-
-        return view('welcome', [
-            'labels' => $labels,
-            'bitcoinValues' => $bitcoinValues,
-        ]);
+        return view('welcome', $this->chartDataHelper->getData($trades));
     }
 
     public function store(StoreSubscriberRequest $request): RedirectResponse
